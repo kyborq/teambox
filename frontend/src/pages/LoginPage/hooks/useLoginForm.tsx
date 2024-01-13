@@ -3,7 +3,7 @@ import { useLogin } from "../../../api/hooks/useLogin";
 import { LoginCredentials } from "../../../api/models";
 
 export const useLoginForm = () => {
-  const { loginUser } = useLogin();
+  const { loginUser, isLoading } = useLogin();
   const { register, handleSubmit } = useForm<LoginCredentials>();
 
   const onSubmit = (data: LoginCredentials) => {
@@ -13,5 +13,6 @@ export const useLoginForm = () => {
   return {
     submit: handleSubmit(onSubmit),
     register,
+    isLoading,
   };
 };

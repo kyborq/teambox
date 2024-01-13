@@ -5,7 +5,7 @@ import { Form } from "../../components/Form";
 import { useLoginForm } from "./hooks/useLoginForm";
 
 export const LoginPage = () => {
-  const { register, submit } = useLoginForm();
+  const { register, submit, isLoading } = useLoginForm();
 
   return (
     <>
@@ -22,7 +22,7 @@ export const LoginPage = () => {
           obscure
           {...register("password")}
         />
-        <Button label="Войти" />
+        <Button label="Войти" isLoading={isLoading} />
       </Form>
     </>
   );

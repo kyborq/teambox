@@ -10,4 +10,10 @@
   border-radius: 6px;
   justify-content: center;
   font-weight: bold;
+  transition: 0.1s;
+}
+
+.Button:active {
+  transform: scale(0.98);
+  transition: 0.1s;
 }
