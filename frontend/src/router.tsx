@@ -1,25 +1,26 @@
 import { createBrowserRouter } from "react-router-dom";
 import { LoginPage, Root } from "./pages";
 import { ProtectedRoot } from "./pages/ProtectedRoot";
+import { HomePage } from "./pages/HomePage";
 
 export const router = createBrowserRouter([
   {
-    path: "",
-    element: <Root redirectTo="/app" />,
+    path: "login",
+    element: <Root redirectTo="/" />,
     children: [
       {
-        path: "login",
+        index: true,
         element: <LoginPage />,
       },
     ],
   },
   {
-    path: "app",
+    path: "",
     element: <ProtectedRoot redirectTo="/login" />,
     children: [
       {
         index: true,
-        element: <h1>sdfasdfsdfsd</h1>,
+        element: <HomePage />,
       },
     ],
   },

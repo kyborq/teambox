@@ -1,0 +1,11 @@
+.Wrap {
+  max-width: 1280px;
+  width: 100%;
+}
+
+.Main {
+  display: flex;
+  gap: 32px;
+  padding: 48px;
+  flex: 1;
+}

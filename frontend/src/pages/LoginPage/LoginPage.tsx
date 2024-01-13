@@ -1,7 +1,7 @@
 import { KeyIcon, LogoIcon, UserIcon } from "../../assets/icons";
-import { Button } from "../../components/Button";
-import { Field } from "../../components/Field";
-import { Form } from "../../components/Form";
+import { Button } from "../../components/ui/Button";
+import { Field } from "../../components/ui/Field";
+import { Form } from "../../components/ui/Form";
 import { useLoginForm } from "./hooks/useLoginForm";
 
 export const LoginPage = () => {
