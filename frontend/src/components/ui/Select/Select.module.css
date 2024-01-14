@@ -1,0 +1,28 @@
+.Select {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.Options {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  gap: 2px;
+}
+
+.Value {
+  font-size: 13px;
+  padding: 8px 16px;
+  border-radius: 6px;
+  background-color: #f2f2f2;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+}
+
+.Placeholder {
+  color: #c7c7c7;
+}

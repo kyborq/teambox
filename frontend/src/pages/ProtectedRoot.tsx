@@ -6,18 +6,18 @@ import {
   Field,
   Logo,
   Navigation,
+  Select,
   Side,
   Wrap,
 } from "../components";
-import { shortName } from "../utils/shortName";
 import { useModal } from "../components/ui/Modal/hooks/useModal";
 import { Modal } from "../components/ui/Modal";
 import { useForm } from "react-hook-form";
 import { useCreateWorkspace } from "../api/hooks/useCreateWorkspace";
 import { CreateWorkspace } from "../api/models";
 import { useWorkspaces } from "../api/hooks/useWorkspaces";
-import { useAppSelector } from "../redux/hooks";
-import { selectWorkspace } from "../redux/slices/userSlice";
+import { useAppDispatch, useAppSelector } from "../redux/hooks";
+import { selectWorkspace, setWorkspace } from "../redux/slices/userSlice";
 
 type Props = {
   redirectTo: string;
@@ -27,7 +27,7 @@ export const ProtectedRoot: React.FC<Props> = ({ redirectTo }) => {
   const { register, handleSubmit } = useForm<CreateWorkspace>();
 
   const { createWorkspace } = useCreateWorkspace();
-  useWorkspaces();
+  const workspaces = useWorkspaces();
 
   const workspace = useAppSelector(selectWorkspace);
 
@@ -38,6 +38,7 @@ export const ProtectedRoot: React.FC<Props> = ({ redirectTo }) => {
   };
 
   const user = useCurrentUser();
+  const dispatch = useAppDispatch();
 
   const workspaceModal = useModal();
 
@@ -53,9 +54,12 @@ export const ProtectedRoot: React.FC<Props> = ({ redirectTo }) => {
           <Navigation to="" label="Команда" />
           <Navigation to="tasks" label="Задачи" />
           <div style={{ flex: 1 }} />
-          <Navigation
-            to="profile"
-            label={workspace?.name || shortName(user.name)}
+          <Select
+            value={workspace?.name || "Не выбрано"}
+            items={workspaces
+              // .filter((w) => w.name !== workspace?.name)
+              .map((w) => w.name)}
+            onSelect={(id) => dispatch(setWorkspace(workspaces[id]))}
           />
           <Button label="Новое пространство" onClick={workspaceModal.open} />
         </Side>
