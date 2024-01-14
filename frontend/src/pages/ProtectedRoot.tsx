@@ -51,14 +51,12 @@ export const ProtectedRoot: React.FC<Props> = ({ redirectTo }) => {
       <Wrap>
         <Side>
           <Logo />
-          <Navigation to="" label="Команда" />
-          <Navigation to="tasks" label="Задачи" />
+          <Navigation to="" label={user.name} />
+          <Navigation to="members" label="Участники" />
           <div style={{ flex: 1 }} />
           <Select
             value={workspace?.name || "Не выбрано"}
-            items={workspaces
-              // .filter((w) => w.name !== workspace?.name)
-              .map((w) => w.name)}
+            items={workspaces.map((w) => w.name)}
             onSelect={(id) => dispatch(setWorkspace(workspaces[id]))}
           />
           <Button label="Новое пространство" onClick={workspaceModal.open} />
