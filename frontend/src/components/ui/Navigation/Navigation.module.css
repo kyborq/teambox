@@ -1,0 +1,19 @@
+.Navigation {
+  color: #c7c7c7;
+  text-decoration: none;
+  font-size: 13px;
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-weight: bold;
+  transition: 0.1s;
+}
+
+.Navigation:hover {
+  background-color: #fafafa;
+  transition: 0.1s;
+}
+
+.Navigation.Current {
+  background-color: #f2f2f2;
+  color: #000000;
+}
