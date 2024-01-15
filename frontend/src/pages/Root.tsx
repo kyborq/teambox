@@ -1,16 +1,9 @@
-import { Navigate, Outlet } from "react-router-dom";
-import { useCurrentUser } from "../api/hooks/useCurrentUser";
+import { Outlet } from "react-router-dom";
 
 type Props = {
   redirectTo?: string;
 };
 
-export const Root: React.FC<Props> = ({ redirectTo }) => {
-  const user = useCurrentUser();
-
-  if (user && redirectTo) {
-    return <Navigate to={redirectTo} replace />;
-  }
-
+export const Root: React.FC<Props> = () => {
   return <Outlet />;
 };

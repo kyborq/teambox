@@ -1,7 +1,7 @@
+import { User, Workspace } from "@/api/models";
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
-import { User, Workspace } from "@/api/models";
-import { RootState } from "@/redux/store";
+import { RootState } from "../store";
 
 interface UserState {
   current: User | null;

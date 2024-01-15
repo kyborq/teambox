@@ -1,6 +1,7 @@
 import { useForm } from "react-hook-form";
-import { useLogin } from "../../../api/hooks/useLogin";
-import { LoginCredentials } from "../../../api/models";
+
+import { useLogin } from "@/api/hooks/useLogin";
+import { LoginCredentials } from "@/api/models";
 
 export const useLoginForm = () => {
   const { loginUser, isLoading } = useLogin();

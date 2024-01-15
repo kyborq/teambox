@@ -1,4 +1,4 @@
-import { Side, Wrap } from "../components";
+import { Side, Wrap } from "@/layouts";
 
 type Props = {
   redirectTo: string;
@@ -6,10 +6,8 @@ type Props = {
 
 export const ProtectedRoot: React.FC<Props> = () => {
   return (
-    <>
-      <Wrap>
-        <Side></Side>
-      </Wrap>
-    </>
+    <Wrap>
+      <Side></Side>
+    </Wrap>
   );
 };

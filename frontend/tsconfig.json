@@ -20,16 +20,9 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
 
-    "baseUrl": ".",
+    "types": ["node"],
     "paths": {
-      "@/*": ["./src/*", "./dist/*", ""],
-      "pages/*": ["src/pages/*"],
-      "layouts/*": ["src/layouts/*"],
-      "assets/*": ["src/assets/*"],
-      "redux/*": ["src/redux/*"],
-      "utils/*": ["src/utils/*"],
-      "api/*": ["src/api/*"],
-      "hooks/*": ["src/hooks/*"]
+      "@/*": ["./src/*"]
     }
   },
   "include": ["src"],
