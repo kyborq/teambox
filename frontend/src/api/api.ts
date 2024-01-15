@@ -1,23 +1,17 @@
 import axios from "axios";
 import { refresh } from "./services/authService";
+import createAuthRefreshInterceptor from "axios-auth-refresh";
 
 export const api = axios.create({
   baseURL: "http://localhost:3000",
   withCredentials: true,
 });
 
-api.interceptors.response.use(
-  (response) => response,
-  async (error) => {
-    const originalRequest = error.config;
+const errorHandler = async () => {
+  await refresh();
+};
 
-    if (error.response.status === 401 && !originalRequest._retry) {
-      originalRequest._retry = false;
-      await refresh();
-
-      return api(originalRequest);
-    }
-
-    return Promise.reject(error);
-  }
-);
+createAuthRefreshInterceptor(api, errorHandler, {
+  statusCodes: [401],
+  pauseInstanceWhileRefreshing: true,
+});

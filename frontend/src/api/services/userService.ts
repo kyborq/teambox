@@ -25,3 +25,11 @@ export const searchUsers = async (workspace: string, login: string) => {
     throw e;
   }
 };
+
+export const setCurrentWorkspace = async (workspace: string) => {
+  try {
+    await api.put(`/users/${workspace}`);
+  } catch (e) {
+    throw e;
+  }
+};

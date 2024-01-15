@@ -1,3 +1,4 @@
+import { Navigation } from "../Navigation";
 import { Logo } from "../Logo";
 
 import styles from "./Side.module.css";
@@ -10,7 +11,8 @@ export const Side: React.FC<Props> = ({ children }) => {
   return (
     <div className={styles.Side}>
       <Logo />
-      <div className={styles.Content}>{children}</div>
+      <Navigation />
+      <div className={styles.Footer}>{children}</div>
     </div>
   );
 };

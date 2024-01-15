@@ -8,10 +8,27 @@ import {
   Root,
 } from "./pages";
 
+export enum Router {
+  Home = "/",
+  Login = "/login",
+  Members = "/members",
+  Roles = "/roles",
+  Tasks = "/tasks",
+  Time = "/tracker",
+}
+
+export const APP_NAVIGATION = {
+  [Router.Home]: "Профиль",
+  [Router.Members]: "Команда",
+  [Router.Roles]: "Роли",
+  [Router.Tasks]: "Задачи",
+  [Router.Time]: "Время",
+};
+
 export const router = createBrowserRouter([
   {
-    path: "login",
-    element: <Root redirectTo="/" />,
+    path: Router.Login,
+    element: <Root redirectTo={Router.Home} />,
     children: [
       {
         index: true,
@@ -20,8 +37,8 @@ export const router = createBrowserRouter([
     ],
   },
   {
-    path: "",
-    element: <ProtectedRoot redirectTo="/login" />,
+    path: Router.Home,
+    element: <ProtectedRoot redirectTo={Router.Login} />,
     children: [
       {
         index: true,

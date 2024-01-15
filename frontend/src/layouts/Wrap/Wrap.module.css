@@ -6,7 +6,7 @@
 
 .Main {
   display: flex;
-  gap: 32px;
-  padding: 48px;
+  gap: 64px;
+  padding: 64px;
   flex: 1;
 }

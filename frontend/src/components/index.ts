@@ -3,7 +3,6 @@ export * from "./Field";
 export * from "./Form";
 export * from "./Loader";
 export * from "./Modal";
-export * from "./Navigation";
 export * from "./Option";
 export * from "./Select";
 export * from "./Spoiler";

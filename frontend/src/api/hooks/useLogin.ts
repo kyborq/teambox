@@ -6,7 +6,7 @@ export const useLogin = () => {
 
   const { mutate, isLoading } = useMutation(login, {
     onSuccess: () => {
-      queryClient.invalidateQueries(["currentUser"]);
+      queryClient.invalidateQueries(["user"]);
     },
   });
 

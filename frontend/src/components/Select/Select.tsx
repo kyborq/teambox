@@ -4,7 +4,7 @@ import { useOnClickOutside } from "usehooks-ts";
 import { Option } from "@/components/Option";
 import { Spoiler } from "@/components/Spoiler";
 import { useSwitch } from "@/hooks/useSwitch";
-import { ExpandIcon } from "@/assets/icons";
+import { CheckIcon, ExpandIcon } from "@/assets/icons";
 
 import styles from "./Select.module.css";
 
@@ -32,6 +32,7 @@ export const Select: React.FC<Props> = ({ value, items, onSelect }) => {
             }}
             value={option}
             selected={value === option}
+            indicator={value === option && <CheckIcon />}
           />
         ))}
       </Spoiler>

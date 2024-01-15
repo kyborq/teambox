@@ -1,4 +1,4 @@
-.Navigation {
+.NavButton {
   color: #c7c7c7;
   text-decoration: none;
   font-size: 13px;
@@ -8,12 +8,12 @@
   transition: 0.1s;
 }
 
-.Navigation:hover {
+.NavButton:hover {
   background-color: #fafafa;
   transition: 0.1s;
 }
 
-.Navigation.Current {
+.NavButton.Current {
   background-color: #f2f2f2;
   color: #000000;
 }

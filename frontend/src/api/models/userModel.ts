@@ -1,8 +1,7 @@
-import { Role } from "./roleModel";
-
 export type User = {
   _id: string;
   login: string;
   name: string;
-  role: Role;
+  role: string;
+  workspace: string;
 };
