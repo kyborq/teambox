@@ -7,10 +7,11 @@ import { useRef } from "react";
 type Props = {
   state: ModalState;
   title: string;
+  text?: string;
   children?: React.ReactNode;
 };
 
-export const Modal: React.FC<Props> = ({ state, title, children }) => {
+export const Modal: React.FC<Props> = ({ state, title, text, children }) => {
   const modalRef = useRef<HTMLDivElement>(null);
 
   useOnClickOutside(modalRef, state.close);
@@ -31,7 +32,10 @@ export const Modal: React.FC<Props> = ({ state, title, children }) => {
             animate={{ translateY: 0, opacity: 1 }}
             exit={{ translateY: -20, opacity: 0 }}
           >
-            <span className={styles.Title}>{title}</span>
+            <div className={styles.Header}>
+              <span className={styles.Title}>{title}</span>
+              {!!text && <span className={styles.Text}>{text}</span>}
+            </div>
             {children}
           </motion.div>
         </motion.div>

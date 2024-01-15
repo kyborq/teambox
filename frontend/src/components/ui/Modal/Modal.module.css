@@ -24,3 +24,14 @@
   font-size: 13px;
   font-weight: bold;
 }
+
+.Text {
+  font-size: 13px;
+  color: #c7c7c7;
+}
+
+.Header {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}

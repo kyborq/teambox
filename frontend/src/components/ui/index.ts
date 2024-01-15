@@ -5,3 +5,4 @@ export * from "./Loader";
 export * from "./Navigation";
 export * from "./Logo";
 export * from "./Select";
+export * from "./Option";

@@ -4,6 +4,7 @@ import styles from "./Select.module.css";
 import { AnimatePresence, motion } from "framer-motion";
 import { ExpandIcon } from "../../../assets/icons";
 import { useOnClickOutside } from "usehooks-ts";
+import { Option } from "../Option";
 
 type Props = {
   items: string[];
@@ -22,38 +23,34 @@ export const Select: React.FC<Props> = ({ value, items, onSelect }) => {
   useOnClickOutside(ref, close);
 
   return (
-    <div className={styles.Select}>
+    <div className={styles.Select} ref={ref}>
       <AnimatePresence>
         {expanded && (
           <motion.div
-            ref={ref}
             className={styles.Options}
             initial={{ height: 0 }}
             animate={{ height: "auto" }}
             exit={{ height: 0 }}
           >
             {items.map((option, index) => (
-              <span
-                className={styles.Value}
-                onClick={() => {
+              <Option
+                onSelect={() => {
                   onSelect && onSelect(index);
                   close();
                 }}
-              >
-                {option}
-              </span>
+                value={option}
+                selected={value === option}
+              />
             ))}
           </motion.div>
         )}
       </AnimatePresence>
-      <div className={styles.Value} onClick={toggle}>
-        {expanded ? (
-          <span className={styles.Placeholder}>Выберите пространство</span>
-        ) : (
-          value
-        )}
-        {!!items.length && <ExpandIcon />}
-      </div>
+
+      <Option
+        onSelect={toggle}
+        value={value}
+        icon={!!items.length && <ExpandIcon />}
+      />
     </div>
   );
 };

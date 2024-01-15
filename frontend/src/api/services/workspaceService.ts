@@ -15,3 +15,12 @@ export const createWorkspace = async (workspaceCreate: CreateWorkspace) => {
 
   return workspace;
 };
+
+export const inviteMember = async (workspaceId: string, userId: string) => {
+  const { data: workspace } = await api.post<Workspace>("/members/invite", {
+    workspaceId,
+    userId,
+  });
+
+  return workspace;
+};

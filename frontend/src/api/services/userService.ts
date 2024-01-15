@@ -9,3 +9,19 @@ export const getCurrentUser = async () => {
     throw e;
   }
 };
+
+export const searchUsers = async (workspace: string, login: string) => {
+  try {
+    const { data: users } = await api.get<User[]>(
+      `/users/available/${workspace}`,
+      {
+        params: {
+          search: login,
+        },
+      }
+    );
+    return users;
+  } catch (e) {
+    throw e;
+  }
+};

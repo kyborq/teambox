@@ -1,4 +1,4 @@
-import { Controller, Get, Req, UseGuards } from '@nestjs/common';
+import { Controller, Get, Param, Query, Req, UseGuards } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { AccessTokenGuard } from 'src/common/guards/access-token.guard';
 import { Request } from 'express';
@@ -17,5 +17,22 @@ export class UsersController {
     const user = await this.usersService.findByLogin(payload.login);
 
     return new UserDto(user);
+  }
+
+  // @Get(':login')
+  // async searchUser(@Param('login') login: string) {
+  //   return this.usersService.searchByLogin(login);
+  // }
+
+  @Get('available/:workspaceId')
+  async getAvailableUsers(
+    @Param('workspaceId') workspaceId: string,
+    @Query('search') search?: string,
+  ) {
+    const users = await this.usersService.searchAvailabelUsers(
+      workspaceId,
+      search,
+    );
+    return users;
   }
 }
