@@ -12,5 +12,6 @@ import { Workspace, WorkspaceSchema } from './schema/workspace.schema';
   ],
   providers: [WorkspacesService],
   controllers: [WorkspacesController],
+  exports: [WorkspacesService],
 })
 export class WorkspacesModule {}
