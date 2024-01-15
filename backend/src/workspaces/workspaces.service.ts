@@ -24,4 +24,8 @@ export class WorkspacesService {
   async getUserWorkspaces(userId: string): Promise<Workspace[]> {
     return this.workspaceModel.find({ owner: userId }).exec();
   }
+
+  async getWorkspaceById(id: string): Promise<Workspace> {
+    return this.workspaceModel.findById(id).exec();
+  }
 }

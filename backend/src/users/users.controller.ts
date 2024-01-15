@@ -1,9 +1,20 @@
-import { Controller, Get, Param, Query, Req, UseGuards } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  HttpCode,
+  HttpStatus,
+  Param,
+  Put,
+  Query,
+  Req,
+  UseGuards,
+} from '@nestjs/common';
 import { UsersService } from './users.service';
 import { AccessTokenGuard } from 'src/common/guards/access-token.guard';
 import { Request } from 'express';
 import { JwtPayload } from 'src/auth/strategies/access-token.strategy';
 import { UserDto } from './dtos/user.dto';
+import { UserId } from 'src/common/decorators/user-id.decorator';
 
 @Controller('users')
 @UseGuards(AccessTokenGuard)
@@ -34,5 +45,14 @@ export class UsersController {
       search,
     );
     return users;
+  }
+
+  @Put(':workspaceId')
+  @HttpCode(HttpStatus.OK)
+  async setWorkspace(
+    @Param('workspaceId') workspaceId: string,
+    @UserId() userId: string,
+  ) {
+    await this.usersService.setWorkspace(userId, workspaceId);
   }
 }

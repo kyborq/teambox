@@ -1,6 +1,7 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document, Types } from 'mongoose';
-import { Role } from 'src/roles/schemas/role.schema';
+
+import { Workspace } from 'src/workspaces/schema/workspace.schema';
 
 export type UserDocument = User & Document;
 
@@ -15,8 +16,8 @@ export class User extends Document {
   @Prop({ required: true })
   name: string;
 
-  @Prop({ type: Types.ObjectId, ref: 'Role' })
-  role?: Role;
+  @Prop({ type: Types.ObjectId, ref: 'Workspace' })
+  workspace?: Workspace;
 
   @Prop()
   token?: string;

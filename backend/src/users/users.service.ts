@@ -12,6 +12,12 @@ export class UsersService {
     private memberService: MembersService,
   ) {}
 
+  async setWorkspace(userId: string, workspaceId: string) {
+    return this.userModel
+      .findByIdAndUpdate(userId, { workspace: workspaceId }, { new: true })
+      .exec();
+  }
+
   async createUser(createUserDto: CreateUserDto) {
     return new this.userModel(createUserDto).save();
   }
