@@ -6,7 +6,7 @@ export type RoleDocument = Role & Document;
 
 @Schema()
 export class Role {
-  @Prop({ required: true, unique: true })
+  @Prop({ required: true })
   name: string;
 
   @Prop({ required: true, type: Types.ObjectId, ref: 'Workspace' })

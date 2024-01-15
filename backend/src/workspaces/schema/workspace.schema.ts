@@ -11,6 +11,9 @@ export class Workspace extends Document {
 
   @Prop({ type: Types.ObjectId, ref: 'User' })
   owner: User;
+
+  @Prop()
+  isPersonal?: boolean;
 }
 
 export const WorkspaceSchema = SchemaFactory.createForClass(Workspace);

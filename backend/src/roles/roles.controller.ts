@@ -12,31 +12,31 @@ import { CreateRoleDto } from './dtos/create-role.dto';
 import { RolesService } from './roles.service';
 import { AccessTokenGuard } from 'src/common/guards/access-token.guard';
 import { WorkspaceOwnerGuard } from 'src/common/guards/workspace-owner.guard';
+import { DeleteRoleDto } from './dtos/delete-role.dto';
 
 @Controller('roles')
-@UseGuards(AccessTokenGuard)
+@UseGuards(AccessTokenGuard, WorkspaceOwnerGuard)
 export class RolesController {
   constructor(private rolesService: RolesService) {}
 
-  @Get()
-  getAllRoles() {
-    return this.rolesService.getAllRoles();
+  @Get(':workspace')
+  getRoles(@Param('workspace') workspace: string) {
+    return this.rolesService.getRoles(workspace);
   }
 
-  @Get(':name')
-  getRole(@Param('name') name: string) {
-    return this.rolesService.getRoleByName(name);
+  @Post(':workspace')
+  createRole(
+    @Param('workspace') workspace: string,
+    @Body() createRoleDto: CreateRoleDto,
+  ) {
+    return this.rolesService.createRole(workspace, createRoleDto);
   }
 
-  @Post()
-  @UseGuards(WorkspaceOwnerGuard)
-  createRole(@Body() createRoleDto: CreateRoleDto) {
-    return this.rolesService.createRole(createRoleDto);
-  }
-
-  @Delete(':name')
-  @UseGuards(WorkspaceOwnerGuard)
-  deleteRole(@Param('name') name: string) {
-    return this.rolesService.deleteRoleByName(name);
+  @Delete(':workspace')
+  deleteRole(
+    @Param('workspace') workspace: string,
+    @Body() deleteRoleDto: DeleteRoleDto,
+  ) {
+    return this.rolesService.deleteRole(workspace, deleteRoleDto);
   }
 }

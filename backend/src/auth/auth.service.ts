@@ -9,6 +9,7 @@ import * as argon2 from 'argon2';
 import { UsersService } from 'src/users/users.service';
 import { LoginDto } from './dtos/login.dto';
 import { RegisterDto } from './dtos/register.dto';
+import { WorkspacesService } from 'src/workspaces/workspaces.service';
 
 @Injectable()
 export class AuthService {
@@ -17,11 +18,16 @@ export class AuthService {
 
   constructor(
     private usersService: UsersService,
+    private workspaceService: WorkspacesService,
     private jwtService: JwtService,
     configService: ConfigService,
   ) {
     this.jwtAccessSecret = configService.get('JWT_ACCESS_SECRET');
     this.jwtRefreshSecret = configService.get('JWT_REFRESH_SECRET');
+  }
+
+  async createPersonalWorkspace(userId: string, name: string) {
+    return this.workspaceService.createPersonalWorkspace(userId, { name });
   }
 
   async register(credentials: RegisterDto) {
@@ -31,6 +37,12 @@ export class AuthService {
       ...credentials,
       password: hashedPassword,
     });
+
+    const createdWorkspace = await this.createPersonalWorkspace(
+      createdUser.id,
+      createdUser.name,
+    );
+    await this.usersService.setWorkspace(createdUser.id, createdWorkspace.id);
 
     return this.issueTokens(createdUser.id, createdUser.login);
   }

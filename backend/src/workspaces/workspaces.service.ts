@@ -14,9 +14,20 @@ export class WorkspacesService {
   async createWorkspace(
     userId: string,
     createWorkspaceDto: CreateWorkSpaceDto,
-  ) {
+  ): Promise<Workspace> {
     return new this.workspaceModel({
       ...createWorkspaceDto,
+      owner: userId,
+    }).save();
+  }
+
+  async createPersonalWorkspace(
+    userId: string,
+    createWorkspaceDto: CreateWorkSpaceDto,
+  ): Promise<Workspace> {
+    return new this.workspaceModel({
+      ...createWorkspaceDto,
+      isPersonal: true,
       owner: userId,
     }).save();
   }

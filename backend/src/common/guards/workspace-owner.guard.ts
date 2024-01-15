@@ -1,4 +1,5 @@
 import { CanActivate, ExecutionContext, Injectable } from '@nestjs/common';
+import { Request } from 'express';
 import { WorkspacesService } from 'src/workspaces/workspaces.service';
 
 @Injectable()
@@ -6,11 +7,13 @@ export class WorkspaceOwnerGuard implements CanActivate {
   constructor(private workspaceService: WorkspacesService) {}
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
-    const request = context.switchToHttp().getRequest();
-    const user = request.user;
-    const workspaceId = request.body.workspaceId;
+    const request: Request = context.switchToHttp().getRequest();
 
-    if (!user || !workspaceId) {
+    const userId = request.user['sub'];
+
+    const workspaceId = request.params.workspace;
+
+    if (!userId || !workspaceId) {
       return false;
     }
 
@@ -20,6 +23,6 @@ export class WorkspaceOwnerGuard implements CanActivate {
       return false;
     }
 
-    return workspace.owner.toString() === user._id.toString();
+    return workspace.owner === userId;
   }
 }

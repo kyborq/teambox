@@ -5,9 +5,10 @@ import { AccessTokenStrategy } from './strategies/access-token.strategy';
 import { RefreshTokenStrategy } from './strategies/refresh-token.strategy';
 import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
+import { WorkspacesModule } from 'src/workspaces/workspaces.module';
 
 @Module({
-  imports: [JwtModule.register({}), UsersModule],
+  imports: [JwtModule.register({}), UsersModule, WorkspacesModule],
   providers: [AuthService, AccessTokenStrategy, RefreshTokenStrategy],
   controllers: [AuthController],
 })

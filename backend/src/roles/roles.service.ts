@@ -4,24 +4,26 @@ import { Model } from 'mongoose';
 
 import { Role, RoleDocument } from './schemas/role.schema';
 import { CreateRoleDto } from './dtos/create-role.dto';
+import { DeleteRoleDto } from './dtos/delete-role.dto';
 
 @Injectable()
 export class RolesService {
   constructor(@InjectModel(Role.name) private roleModel: Model<RoleDocument>) {}
 
-  async createRole(createRoleDto: CreateRoleDto) {
-    return new this.roleModel(createRoleDto).save();
+  async createRole(workspace: string, createRoleDto: CreateRoleDto) {
+    return new this.roleModel({ ...createRoleDto, workspace }).save();
   }
 
-  async getAllRoles(): Promise<Role[]> {
-    return await this.roleModel.find().exec();
+  async getRoles(workspace: string): Promise<Role[]> {
+    return await this.roleModel.find({ workspace }).exec();
   }
 
-  async getRoleByName(name: string) {
-    return await this.roleModel.findOne({ name }).exec();
-  }
-
-  async deleteRoleByName(name: string) {
-    return await this.roleModel.findOneAndDelete({ name }).exec();
+  async deleteRole(workspace: string, deleteRoleDto: DeleteRoleDto) {
+    return await this.roleModel
+      .findOneAndDelete({
+        id: deleteRoleDto.id,
+        workspace: workspace,
+      })
+      .exec();
   }
 }
