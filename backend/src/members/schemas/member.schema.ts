@@ -13,8 +13,9 @@ export class Member {
   @Prop({ required: true, type: Types.ObjectId, ref: 'Workspace' })
   workspace: Workspace;
 
-  @Prop()
-  role?: string;
+  // TODO:
+  // @Prop()
+  // role?: string;
 }
 
 export const MemberSchema = SchemaFactory.createForClass(Member);

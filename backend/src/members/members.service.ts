@@ -2,8 +2,8 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Member, MemberDocument } from './schemas/member.schema';
 import { Model } from 'mongoose';
-import { InviteDto } from './dtos/invite.dto';
 import { User } from 'src/users/schemas/user.schema';
+import { CreateMembersDto } from './dtos/create-members.dto';
 
 @Injectable()
 export class MembersService {
@@ -11,14 +11,14 @@ export class MembersService {
     @InjectModel(Member.name) private memberModel: Model<MemberDocument>,
   ) {}
 
-  async inviteMember(inviteDto: InviteDto) {
-    return new this.memberModel(inviteDto).save();
+  async createMembers(workspace: string, members: CreateMembersDto) {
+    return members.userIds.map((id) => {
+      return new this.memberModel({ user: id, workspace }).save();
+    });
   }
 
-  async findMembers(workspaceId: string): Promise<User[]> {
-    const members = await this.memberModel
-      .find({ workspace: workspaceId }, 'user')
-      .exec();
+  async findMembers(workspace: string): Promise<User[]> {
+    const members = await this.memberModel.find({ workspace }, 'user').exec();
     return members.map((member) => member.user);
   }
 }

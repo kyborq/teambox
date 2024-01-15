@@ -1,18 +1,25 @@
-import { Body, Controller, Get, Post, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, UseGuards } from '@nestjs/common';
 import { MembersService } from './members.service';
-import { InviteDto } from './dtos/invite.dto';
+import { CreateMembersDto } from './dtos/create-members.dto';
 import { AccessTokenGuard } from 'src/common/guards/access-token.guard';
+import { WorkspaceOwnerGuard } from 'src/common/guards/workspace-owner.guard';
 
 @Controller('members')
 @UseGuards(AccessTokenGuard)
 export class MembersController {
   constructor(private membersService: MembersService) {}
 
-  @Post('invite')
-  inviteMember(@Body() inviteDto: InviteDto) {
-    return this.membersService.inviteMember(inviteDto);
+  @Get(':workspace')
+  findMembers(@Param('workspace') workspace: string) {
+    return this.membersService.findMembers(workspace);
   }
 
-  @Get('invite/:login')
-  searchForMembers() {}
+  @Post(':workspace')
+  @UseGuards(WorkspaceOwnerGuard)
+  createMembers(
+    @Param('workspace') workspace: string,
+    @Body() membersDto: CreateMembersDto,
+  ) {
+    return this.membersService.createMembers(workspace, membersDto);
+  }
 }
