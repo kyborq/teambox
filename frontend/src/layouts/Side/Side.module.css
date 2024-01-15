@@ -1,0 +1,10 @@
+.Side {
+  display: flex;
+  flex-direction: column;
+  width: 232px;
+  gap: 2px;
+}
+
+.Content {
+  flex: 1;
+}

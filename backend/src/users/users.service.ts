@@ -4,12 +4,14 @@ import { User, UserDocument } from './schemas/user.schema';
 import { Model } from 'mongoose';
 import { CreateUserDto } from './dtos/create-user.dto';
 import { MembersService } from 'src/members/members.service';
+import { WorkspacesService } from 'src/workspaces/workspaces.service';
 
 @Injectable()
 export class UsersService {
   constructor(
     @InjectModel(User.name) private userModel: Model<UserDocument>,
     private memberService: MembersService,
+    private workspacesService: WorkspacesService,
   ) {}
 
   async setWorkspace(userId: string, workspaceId: string) {
@@ -61,5 +63,10 @@ export class UsersService {
       { _id: id },
       { token: token || null },
     );
+  }
+
+  async getCurrentWorkspace(id: string) {
+    const user = await this.userModel.findById(id);
+    return await this.workspacesService.getWorkspaceById(user.workspace.id);
   }
 }

@@ -1,0 +1,9 @@
+.Select {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.Placeholder {
+  color: #c7c7c7;
+}

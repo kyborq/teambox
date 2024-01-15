@@ -40,7 +40,7 @@ export class AuthService {
 
     const createdWorkspace = await this.createPersonalWorkspace(
       createdUser.id,
-      createdUser.name,
+      'Личное',
     );
     await this.usersService.setWorkspace(createdUser.id, createdWorkspace.id);
 

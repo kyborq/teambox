@@ -1,0 +1,6 @@
+.Spoiler {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  gap: 2px;
+}

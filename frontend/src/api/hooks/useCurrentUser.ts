@@ -1,10 +1,9 @@
 import { useQuery } from "react-query";
 import { getCurrentUser } from "../services/userService";
-import { useAppDispatch, useAppSelector } from "../../redux/hooks";
-import { selectUser, setUser } from "../../redux/slices/userSlice";
+import { useAppDispatch } from "../../redux/hooks";
+import { setUser } from "../../redux/slices/userSlice";
 
 export const useCurrentUser = () => {
-  const user = useAppSelector(selectUser);
   const dispatch = useAppDispatch();
 
   useQuery("currentUser", getCurrentUser, {
@@ -17,6 +16,4 @@ export const useCurrentUser = () => {
       dispatch(setUser(null));
     },
   });
-
-  return user;
 };

@@ -16,6 +16,14 @@ export const createWorkspace = async (workspaceCreate: CreateWorkspace) => {
   return workspace;
 };
 
+export const getWorkspace = async (workspaceId: string) => {
+  const { data: workspace } = await api.get<Workspace>(
+    `/workspaces/${workspaceId}`
+  );
+
+  return workspace;
+};
+
 export const inviteMember = async (workspaceId: string, userId: string) => {
   const { data: workspace } = await api.post<Workspace>("/members/invite", {
     workspaceId,

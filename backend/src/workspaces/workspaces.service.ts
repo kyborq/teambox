@@ -3,12 +3,14 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Workspace, WorkspaceDocument } from './schema/workspace.schema';
 import { Model } from 'mongoose';
 import { CreateWorkSpaceDto } from './dtos/create-workspace.dto';
+// import { UsersService } from 'src/users/users.service';
 
 @Injectable()
 export class WorkspacesService {
   constructor(
     @InjectModel(Workspace.name)
     private workspaceModel: Model<WorkspaceDocument>,
+    // private usersService: UsersService,
   ) {}
 
   async createWorkspace(

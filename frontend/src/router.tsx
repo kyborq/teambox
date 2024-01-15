@@ -1,5 +1,12 @@
 import { createBrowserRouter } from "react-router-dom";
-import { HomePage, LoginPage, MembersPage, ProtectedRoot, Root } from "./pages";
+import {
+  HomePage,
+  LoginPage,
+  MembersPage,
+  ProtectedRoot,
+  RolesPage,
+  Root,
+} from "./pages";
 
 export const router = createBrowserRouter([
   {
@@ -23,6 +30,10 @@ export const router = createBrowserRouter([
       {
         path: "members",
         element: <MembersPage />,
+      },
+      {
+        path: "roles",
+        element: <RolesPage />,
       },
     ],
   },

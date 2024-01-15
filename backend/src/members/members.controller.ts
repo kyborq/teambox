@@ -3,9 +3,10 @@ import { MembersService } from './members.service';
 import { CreateMembersDto } from './dtos/create-members.dto';
 import { AccessTokenGuard } from 'src/common/guards/access-token.guard';
 import { WorkspaceOwnerGuard } from 'src/common/guards/workspace-owner.guard';
+import { WorkspacePersonalGuard } from 'src/common/guards/workspace-personal.guard';
 
 @Controller('members')
-@UseGuards(AccessTokenGuard)
+@UseGuards(AccessTokenGuard, WorkspacePersonalGuard)
 export class MembersController {
   constructor(private membersService: MembersService) {}
 
