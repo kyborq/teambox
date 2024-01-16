@@ -14,11 +14,10 @@ export const WorkspaceForm: React.FC<Props> = ({ state }) => {
   const onSubmit = (data: CreateWorkspace) => {
     createWorkspace(data);
     reset();
-    state.close();
   };
 
   return (
-    <Modal state={state} title="Новое пространство">
+    <Modal state={state} onClose={state.close} title="Новое пространство">
       <Form onSubmit={handleSubmit(onSubmit)}>
         <Field placeholder="Название" {...register("name")} />
         <Button label="Создать" />

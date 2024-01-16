@@ -11,7 +11,7 @@ export class WorkspaceOwnerGuard implements CanActivate {
 
     const userId = request.user['sub'];
 
-    const workspaceId = request.params.workspace;
+    const workspaceId = request.body.workspace;
 
     if (!userId || !workspaceId) {
       return false;

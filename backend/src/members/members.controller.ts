@@ -17,10 +17,7 @@ export class MembersController {
 
   @Post(':workspace')
   @UseGuards(WorkspaceOwnerGuard)
-  createMembers(
-    @Param('workspace') workspace: string,
-    @Body() membersDto: CreateMembersDto,
-  ) {
-    return this.membersService.createMembers(workspace, membersDto);
+  createMembers(@Body() membersDto: CreateMembersDto) {
+    return this.membersService.createMembers(membersDto);
   }
 }

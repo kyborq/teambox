@@ -1,7 +1,7 @@
 .Header {
   display: flex;
-  justify-content: space-between;
   align-items: center;
+  gap: 8px;
 }
 
 .Title {
@@ -10,8 +10,15 @@
   margin: 0;
 }
 
+.Workspace {
+  font-size: 13px;
+  font-weight: bold;
+  color: #c7c7c7;
+}
+
 .Path {
   display: flex;
   align-items: center;
   gap: 8px;
+  flex: 1;
 }

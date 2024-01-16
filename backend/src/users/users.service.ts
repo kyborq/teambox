@@ -41,16 +41,13 @@ export class UsersService {
       .limit(4);
   }
 
-  async searchAvailabelUsers(
-    workspaceId: string,
-    login: string,
-  ): Promise<User[]> {
-    const memberUserIds = await this.memberService.findMembers(workspaceId);
-
+  async searchUsers(login: string): Promise<User[]> {
     const availableUsers = await this.userModel
       .find({
-        _id: { $nin: memberUserIds },
-        login: { $regex: login, $options: 'i' },
+        login: {
+          $regex: login,
+          $options: 'i',
+        },
       })
       .limit(4)
       .exec();
@@ -67,6 +64,6 @@ export class UsersService {
 
   async getCurrentWorkspace(id: string) {
     const user = await this.userModel.findById(id);
-    return await this.workspacesService.getWorkspaceById(user.workspace.id);
+    return await this.workspacesService.getWorkspaceById(`${user.workspace}`);
   }
 }

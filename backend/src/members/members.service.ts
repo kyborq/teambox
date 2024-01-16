@@ -11,9 +11,12 @@ export class MembersService {
     @InjectModel(Member.name) private memberModel: Model<MemberDocument>,
   ) {}
 
-  async createMembers(workspace: string, members: CreateMembersDto) {
+  async createMembers(members: CreateMembersDto) {
     return members.userIds.map((id) => {
-      return new this.memberModel({ user: id, workspace }).save();
+      return new this.memberModel({
+        user: id,
+        workspace: members.workspace,
+      }).save();
     });
   }
 

@@ -21,7 +21,7 @@ export enum Router {
 
 export const APP_NAVIGATION = {
   [Router.Home]: "Профиль",
-  [Router.Members]: "Команда",
+  [Router.Members]: "Участники",
   [Router.Roles]: "Роли",
   [Router.Tasks]: "Задачи",
   [Router.Time]: "Время",

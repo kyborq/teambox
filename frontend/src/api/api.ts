@@ -14,4 +14,5 @@ const errorHandler = async () => {
 createAuthRefreshInterceptor(api, errorHandler, {
   statusCodes: [401],
   pauseInstanceWhileRefreshing: true,
+  interceptNetworkError: true,
 });

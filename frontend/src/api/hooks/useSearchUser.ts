@@ -2,19 +2,24 @@ import { useQuery } from "react-query";
 import { searchUsers } from "../services/userService";
 import { ChangeEvent, useEffect, useState } from "react";
 
-export const useSearchUser = (workspace?: string) => {
+export const useSearchUser = () => {
   const [searchQuery, setSearchQuery] = useState("");
 
   const { data, refetch } = useQuery(
-    ["users", workspace, searchQuery],
-    () => (workspace ? searchUsers(workspace, searchQuery) : null),
+    ["searchUsers", searchQuery],
+    () => (!!searchQuery ? searchUsers(searchQuery) : null),
     {
+      enabled: !!searchQuery,
       keepPreviousData: true,
     }
   );
 
-  const search = (e: ChangeEvent<HTMLInputElement>) =>
+  const handleSearch = (e: ChangeEvent<HTMLInputElement>) =>
     setSearchQuery(e.target.value);
+
+  const resetQuery = () => {
+    setSearchQuery("");
+  };
 
   useEffect(() => {
     refetch();
@@ -22,7 +27,8 @@ export const useSearchUser = (workspace?: string) => {
 
   return {
     users: data,
-    query: searchQuery,
-    search,
+    searchQuery,
+    handleSearch,
+    resetQuery,
   };
 };

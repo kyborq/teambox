@@ -11,12 +11,23 @@ type Props = {
   title: string;
   text?: string;
   children?: React.ReactNode;
+  onClose?: () => void;
 };
 
-export const Modal: React.FC<Props> = ({ state, title, text, children }) => {
+export const Modal: React.FC<Props> = ({
+  state,
+  title,
+  text,
+  children,
+  onClose,
+}) => {
   const modalRef = useRef<HTMLDivElement>(null);
 
-  useOnClickOutside(modalRef, state.close);
+  const handleClose = () => {
+    onClose && onClose();
+  };
+
+  useOnClickOutside(modalRef, handleClose);
 
   return (
     <AnimatePresence>

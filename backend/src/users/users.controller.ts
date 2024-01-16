@@ -24,17 +24,16 @@ export class UsersController {
     return new UserDto(user);
   }
 
-  // @Get('available/:workspaceId')
-  // async getAvailableUsers(
-  //   @Param('workspaceId') workspaceId: string,
-  //   @Query('search') search?: string,
-  // ) {
-  //   const users = await this.usersService.searchAvailabelUsers(
-  //     workspaceId,
-  //     search,
-  //   );
-  //   return users;
-  // }
+  @Get('search/:login')
+  async getAvailableUsers(@Param('login') login: string) {
+    const users = await this.usersService.searchUsers(login);
+    return users;
+  }
+
+  @Get('workspace')
+  async getCurrentWorkspace(@UserId() userId: string) {
+    return await this.usersService.getCurrentWorkspace(userId);
+  }
 
   @Put(':workspaceId')
   @HttpCode(HttpStatus.OK)

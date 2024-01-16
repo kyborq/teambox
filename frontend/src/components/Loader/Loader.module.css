@@ -1,5 +1,6 @@
 .Loader {
   animation: rotating 1s linear infinite;
+  margin: auto;
 }
 
 @keyframes rotating {
