@@ -5,7 +5,7 @@ import {
   useOwnedWorkspaces,
 } from "@/api/hooks";
 import { Button, Select, useSwitch } from "@/components";
-import { Side, Wrap } from "@/layouts";
+import { Content, Side, Wrap } from "@/layouts";
 import { WorkspaceForm } from "@/forms/WorkspaceForm";
 
 type Props = {
@@ -38,7 +38,9 @@ export const ProtectedRoot: React.FC<Props> = ({ redirectTo }) => {
         <WorkspaceForm state={workspaceModal} />
         <Button label="Новое пространство" onClick={workspaceModal.open} />
       </Side>
-      <Outlet />
+      <Content>
+        <Outlet />
+      </Content>
     </Wrap>
   );
 };

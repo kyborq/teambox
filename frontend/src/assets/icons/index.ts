@@ -4,5 +4,14 @@ import KeyIcon from "./key.svg?react";
 import LoaderIcon from "./loader.svg?react";
 import ExpandIcon from "./expand.svg?react";
 import CheckIcon from "./check.svg?react";
+import ArrowRightIcon from "./arrow-right.svg?react";
 
-export { LogoIcon, UserIcon, KeyIcon, LoaderIcon, ExpandIcon, CheckIcon };
+export {
+  LogoIcon,
+  UserIcon,
+  KeyIcon,
+  LoaderIcon,
+  ExpandIcon,
+  CheckIcon,
+  ArrowRightIcon,
+};

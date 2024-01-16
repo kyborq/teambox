@@ -1,0 +1,17 @@
+.ActionButton {
+  padding: 0;
+  border: 0;
+  outline: none;
+  background-color: transparent;
+  font-family: inherit;
+  font-weight: bold;
+  font-size: 13px;
+  cursor: pointer;
+  color: #c7c7c7;
+  transition: 150ms;
+}
+
+.ActionButton:hover {
+  color: #000000;
+  transition: 150ms;
+}
