@@ -1,7 +1,7 @@
 import { api } from "../api";
 import { LoginCredentials } from "../models";
 
-export const login = async (loginCredentials: LoginCredentials) => {
+export const loginUser = async (loginCredentials: LoginCredentials) => {
   await api.post("/auth/login", loginCredentials);
 };
 

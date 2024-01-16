@@ -6,9 +6,7 @@ import { useQuery } from "react-query";
 export const useCurrentUser = () => {
   const dispatch = useAppDispatch();
 
-  const { data: user, isLoading } = useQuery("user", getCurrentUser, {
-    staleTime: Infinity,
-    cacheTime: Infinity,
+  const { data: user, isLoading } = useQuery("currentUser", getCurrentUser, {
     onSuccess: (data) => {
       dispatch(setUser(data));
     },

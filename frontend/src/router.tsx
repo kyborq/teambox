@@ -4,6 +4,7 @@ import {
   LoginPage,
   MembersPage,
   ProtectedRoot,
+  RegisterPage,
   RolesPage,
   Root,
 } from "./pages";
@@ -11,6 +12,7 @@ import {
 export enum Router {
   Home = "/",
   Login = "/login",
+  Register = "/register",
   Members = "/members",
   Roles = "/roles",
   Tasks = "/tasks",
@@ -27,12 +29,16 @@ export const APP_NAVIGATION = {
 
 export const router = createBrowserRouter([
   {
-    path: Router.Login,
+    path: Router.Home,
     element: <Root redirectTo={Router.Home} />,
     children: [
       {
-        index: true,
+        path: Router.Login,
         element: <LoginPage />,
+      },
+      {
+        path: Router.Register,
+        element: <RegisterPage />,
       },
     ],
   },

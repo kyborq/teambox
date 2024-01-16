@@ -1,16 +1,23 @@
 import { KeyIcon, LogoIcon, UserIcon } from "@/assets/icons";
 import { Button, Field, Form } from "@/components";
-import { useLoginForm } from "./hooks/useLoginForm";
+import { useRegisterForm } from "./hooks/useRegisterForm";
 
-export const LoginPage = () => {
-  const { register, submit, isLoading, isError, isValid } = useLoginForm();
+export const RegisterPage = () => {
+  const { register } = useRegisterForm();
 
   return (
-    <Form onSubmit={submit}>
+    <Form>
       <LogoIcon />
       <Field
         icon={<UserIcon />}
-        placeholder="Имя пользователя"
+        placeholder="Полное имя"
+        {...register("name", {
+          required: "Введите имя",
+        })}
+      />
+      <Field
+        icon={<UserIcon />}
+        placeholder="Логин"
         {...register("login", {
           required: "Введите логин",
         })}
@@ -23,12 +30,7 @@ export const LoginPage = () => {
           required: "Введите пароль",
         })}
       />
-      <Button
-        label="Войти"
-        isLoading={isLoading}
-        isError={isError}
-        isDisabled={!isValid}
-      />
+      <Button label="Зарегистрироватся" />
     </Form>
   );
 };

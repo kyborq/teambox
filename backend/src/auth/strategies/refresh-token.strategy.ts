@@ -19,7 +19,7 @@ export class RefreshTokenStrategy extends PassportStrategy(
   validate(req: Request, payload: any) {
     const refreshToken = req.cookies['refreshToken'];
     if (!refreshToken) {
-      throw new ForbiddenException('Access denied');
+      throw new ForbiddenException('dsfghjkl;kljhjghfg denied');
     }
     return { ...payload, refreshToken };
   }

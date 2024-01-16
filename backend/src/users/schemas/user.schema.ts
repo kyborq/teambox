@@ -5,7 +5,7 @@ import { Workspace } from 'src/workspaces/schema/workspace.schema';
 
 export type UserDocument = User & Document;
 
-@Schema()
+@Schema({ versionKey: false })
 export class User extends Document {
   @Prop({ required: true })
   login: string;

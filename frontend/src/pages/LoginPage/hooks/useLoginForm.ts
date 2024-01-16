@@ -1,13 +1,18 @@
 import { useForm } from "react-hook-form";
 
-import { useLogin } from "@/api/hooks/useLogin";
 import { LoginCredentials } from "@/api/models";
+import { useLogin } from "./useLogin";
 
 export const useLoginForm = () => {
-  const { loginUser, isLoading } = useLogin();
-  const { register, handleSubmit } = useForm<LoginCredentials>();
+  const { loginUser, isLoading, isError } = useLogin();
+  const {
+    register,
+    handleSubmit,
+    formState: { isValid },
+  } = useForm<LoginCredentials>();
 
   const onSubmit = (data: LoginCredentials) => {
+    console.log("asdfadsfadsfds");
     loginUser(data);
   };
 
@@ -15,5 +20,7 @@ export const useLoginForm = () => {
     submit: handleSubmit(onSubmit),
     register,
     isLoading,
+    isValid,
+    isError,
   };
 };

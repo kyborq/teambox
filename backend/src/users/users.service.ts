@@ -28,8 +28,8 @@ export class UsersService {
     return await this.userModel.findOne({ login });
   }
 
-  async findById(id: string) {
-    return await this.userModel.findOne({ _id: id });
+  async findById(id: string): Promise<User> {
+    return await this.userModel.findById(id).exec();
   }
 
   async searchByLogin(login: string) {

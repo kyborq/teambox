@@ -1,12 +1,6 @@
 import { Navigate, Outlet } from "react-router-dom";
-import {
-  useCurrentUser,
-  useCurrentWorkspace,
-  useOwnedWorkspaces,
-} from "@/api/hooks";
-import { Button, Select, useSwitch } from "@/components";
+import { useCurrentUser } from "@/api/hooks";
 import { Content, Side, Wrap } from "@/layouts";
-import { WorkspaceForm } from "@/forms/WorkspaceForm";
 
 type Props = {
   redirectTo?: string;
@@ -14,9 +8,6 @@ type Props = {
 
 export const ProtectedRoot: React.FC<Props> = ({ redirectTo }) => {
   const { user, isLoading } = useCurrentUser();
-  const { workspace, setWorkspace } = useCurrentWorkspace();
-  const ownedWorkspaces = useOwnedWorkspaces();
-  const workspaceModal = useSwitch();
 
   if (!user && !isLoading && redirectTo) {
     return <Navigate to={redirectTo} replace />;
@@ -25,7 +16,7 @@ export const ProtectedRoot: React.FC<Props> = ({ redirectTo }) => {
   return (
     <Wrap>
       <Side>
-        {workspace && (
+        {/* {workspace && (
           <Select
             items={ownedWorkspaces.map((w) => w.name)}
             value={workspace.name}
@@ -36,7 +27,7 @@ export const ProtectedRoot: React.FC<Props> = ({ redirectTo }) => {
           />
         )}
         <WorkspaceForm state={workspaceModal} />
-        <Button label="Новое пространство" onClick={workspaceModal.open} />
+        <Button label="Новое пространство" onClick={workspaceModal.open} /> */}
       </Side>
       <Content>
         <Outlet />
