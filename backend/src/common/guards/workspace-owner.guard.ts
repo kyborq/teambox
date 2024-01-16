@@ -1,28 +1,32 @@
-import { CanActivate, ExecutionContext, Injectable } from '@nestjs/common';
-import { Request } from 'express';
+import {
+  CanActivate,
+  ExecutionContext,
+  Injectable,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { WorkspacesService } from 'src/workspaces/workspaces.service';
 
 @Injectable()
 export class WorkspaceOwnerGuard implements CanActivate {
-  constructor(private workspaceService: WorkspacesService) {}
+  constructor(private readonly workspacesService: WorkspacesService) {}
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
-    const request: Request = context.switchToHttp().getRequest();
+    const request = context.switchToHttp().getRequest();
+    const workspaceId = request.params.workspace;
+    const userId = request.user.sub;
 
-    const userId = request.user['sub'];
-
-    const workspaceId = request.body.workspace;
-
-    if (!userId || !workspaceId) {
-      return false;
-    }
-
-    const workspace = await this.workspaceService.getWorkspaceById(workspaceId);
+    const workspace = await this.workspacesService.getWorkspace(workspaceId);
 
     if (!workspace) {
-      return false;
+      throw new UnauthorizedException('Workspace not found');
     }
 
-    return workspace.owner === userId;
+    const isOwner = workspace.owner.toString() === userId.toString();
+
+    if (!isOwner) {
+      throw new UnauthorizedException('User is not the owner of the workspace');
+    }
+
+    return true;
   }
 }

@@ -22,7 +22,7 @@ export class SetCookiesInterceptor implements NestInterceptor {
           httpOnly: true,
           secure: true,
           path: '/',
-          maxAge: 1000 * 60,
+          maxAge: 1000 * 60 * 15,
         });
         response.cookie('refreshToken', data.refreshToken, {
           httpOnly: true,

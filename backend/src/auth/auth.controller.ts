@@ -27,14 +27,14 @@ export class AuthController {
   @HttpCode(HttpStatus.OK)
   @UseInterceptors(SetCookiesInterceptor)
   async login(@Body() credentials: LoginDto) {
-    return await this.authService.login(credentials);
+    return await this.authService.loginUser(credentials);
   }
 
   @Post('register')
   @HttpCode(HttpStatus.CREATED)
   @UseInterceptors(SetCookiesInterceptor)
   async register(@Body() credentials: RegisterDto) {
-    return await this.authService.register(credentials);
+    return await this.authService.registerUser(credentials);
   }
 
   @Get('logout')
@@ -42,7 +42,7 @@ export class AuthController {
   @UseGuards(AccessTokenGuard)
   @UseInterceptors(ClearCookiesInterceptor)
   async logout(@UserId() userId: string) {
-    return this.authService.logout(userId);
+    return this.authService.logoutUser(userId);
   }
 
   @Get('refresh')

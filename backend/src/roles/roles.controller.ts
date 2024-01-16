@@ -11,11 +11,10 @@ import {
 import { CreateRoleDto } from './dtos/create-role.dto';
 import { RolesService } from './roles.service';
 import { AccessTokenGuard } from 'src/common/guards/access-token.guard';
-import { WorkspaceOwnerGuard } from 'src/common/guards/workspace-owner.guard';
 import { DeleteRoleDto } from './dtos/delete-role.dto';
 
 @Controller('roles')
-@UseGuards(AccessTokenGuard, WorkspaceOwnerGuard)
+@UseGuards(AccessTokenGuard)
 export class RolesController {
   constructor(private rolesService: RolesService) {}
 

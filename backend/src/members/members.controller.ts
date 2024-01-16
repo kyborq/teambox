@@ -1,23 +1,44 @@
-import { Body, Controller, Get, Param, Post, UseGuards } from '@nestjs/common';
+import {
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Post,
+  UseGuards,
+  UseInterceptors,
+} from '@nestjs/common';
 import { MembersService } from './members.service';
-import { CreateMembersDto } from './dtos/create-members.dto';
 import { AccessTokenGuard } from 'src/common/guards/access-token.guard';
+import { UserId } from 'src/common/decorators/user-id.decorator';
+import { WorkspaceMemberInterceptor } from 'src/common/interceptors/workspace-member.interceptor';
 import { WorkspaceOwnerGuard } from 'src/common/guards/workspace-owner.guard';
-import { WorkspacePersonalGuard } from 'src/common/guards/workspace-personal.guard';
 
 @Controller('members')
-@UseGuards(AccessTokenGuard, WorkspacePersonalGuard)
+@UseGuards(AccessTokenGuard)
 export class MembersController {
   constructor(private membersService: MembersService) {}
 
   @Get(':workspace')
-  findMembers(@Param('workspace') workspace: string) {
+  @UseInterceptors(WorkspaceMemberInterceptor)
+  async getWorkspaceMembers(@Param('workspace') workspace: string) {
     return this.membersService.findMembers(workspace);
   }
 
-  @Post(':workspace')
+  @Post(':workspace/:user')
   @UseGuards(WorkspaceOwnerGuard)
-  createMembers(@Body() membersDto: CreateMembersDto) {
-    return this.membersService.createMembers(membersDto);
+  async createMember(
+    @Param('workspace') workspace: string,
+    @Param('user') user: string,
+  ) {
+    return await this.membersService.createMember(user, workspace);
+  }
+
+  @Delete(':workspace/:user')
+  @UseGuards(WorkspaceOwnerGuard)
+  async removeMember(
+    @Param('user') user: string,
+    @Param('workspace') workspace: string,
+  ) {
+    return await this.membersService.removeMember(user, workspace);
   }
 }

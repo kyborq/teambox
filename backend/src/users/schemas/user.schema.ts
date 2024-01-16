@@ -19,6 +19,9 @@ export class User extends Document {
   @Prop({ type: Types.ObjectId, ref: 'Workspace' })
   workspace?: Workspace;
 
+  @Prop({ required: true, default: 1 })
+  workspacesLimit: number;
+
   @Prop()
   token?: string;
 }

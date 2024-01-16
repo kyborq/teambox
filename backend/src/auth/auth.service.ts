@@ -3,51 +3,44 @@ import {
   ForbiddenException,
   Injectable,
 } from '@nestjs/common';
-import { JwtService } from '@nestjs/jwt';
-import { ConfigService } from '@nestjs/config';
 import * as argon2 from 'argon2';
 import { UsersService } from 'src/users/users.service';
 import { LoginDto } from './dtos/login.dto';
 import { RegisterDto } from './dtos/register.dto';
+import { TokenService } from './token.service';
 import { WorkspacesService } from 'src/workspaces/workspaces.service';
 
 @Injectable()
 export class AuthService {
-  private readonly jwtAccessSecret: string;
-  private readonly jwtRefreshSecret: string;
-
   constructor(
     private usersService: UsersService,
-    private workspaceService: WorkspacesService,
-    private jwtService: JwtService,
-    configService: ConfigService,
-  ) {
-    this.jwtAccessSecret = configService.get('JWT_ACCESS_SECRET');
-    this.jwtRefreshSecret = configService.get('JWT_REFRESH_SECRET');
-  }
+    private tokenService: TokenService,
+    private workspacesService: WorkspacesService,
+  ) {}
 
-  async createPersonalWorkspace(userId: string, name: string) {
-    return this.workspaceService.createPersonalWorkspace(userId, { name });
-  }
+  async registerUser(credentials: RegisterDto) {
+    const user = await this.usersService.findByLogin(credentials.login);
+    if (user) {
+      throw new BadRequestException('User already exist');
+    }
 
-  async register(credentials: RegisterDto) {
-    const hashedPassword = await this.hashData(credentials.password);
+    const hashedPassword = await argon2.hash(credentials.password);
 
     const createdUser = await this.usersService.createUser({
       ...credentials,
       password: hashedPassword,
     });
 
-    const createdWorkspace = await this.createPersonalWorkspace(
+    const newWorkspace = await this.workspacesService.createPersonalWorkspace(
       createdUser.id,
-      'Личное',
+      { name: `Пространство ${createdUser.login}` },
     );
-    await this.usersService.setWorkspace(createdUser.id, createdWorkspace.id);
+    await this.updateWorkspace(createdUser.id, newWorkspace.id);
 
     return this.issueTokens(createdUser.id, createdUser.login);
   }
 
-  async login(credentials: LoginDto) {
+  async loginUser(credentials: LoginDto) {
     const user = await this.usersService.findByLogin(credentials.login);
     if (!user) {
       throw new BadRequestException('User does not exist');
@@ -67,21 +60,13 @@ export class AuthService {
   async refreshTokens(userId: string, refreshToken: string) {
     const user = await this.getValidUserForRefreshToken(userId);
 
-    await this.verifyRefreshToken(user.token, refreshToken);
+    await this.tokenService.verifyRefreshToken(user.token, refreshToken);
 
     return this.issueTokens(user.id, user.login);
   }
 
-  async logout(id: string) {
-    await this.usersService.setRefreshToken(id);
-  }
-
-  private async verifyRefreshToken(storedToken: string, providedToken: string) {
-    const refreshTokenMatches = await argon2.verify(storedToken, providedToken);
-
-    if (!refreshTokenMatches) {
-      throw new ForbiddenException('Access Denied');
-    }
+  async logoutUser(id: string) {
+    await this.usersService.setRefreshToken(id, null);
   }
 
   private async getValidUserForRefreshToken(userId: string) {
@@ -93,31 +78,17 @@ export class AuthService {
   }
 
   private async issueTokens(userId: string, login: string) {
-    const tokens = await this.generateTokens(userId, login);
+    const tokens = await this.tokenService.generateTokens(userId, login);
     await this.updateRefreshToken(userId, tokens.refreshToken);
     return tokens;
   }
 
-  private async generateTokens(userId: string, login: string) {
-    const accessToken = await this.jwtService.signAsync(
-      { sub: userId, login },
-      { secret: this.jwtAccessSecret, expiresIn: '1m' },
-    );
-
-    const refreshToken = await this.jwtService.signAsync(
-      { sub: userId, login },
-      { secret: this.jwtRefreshSecret, expiresIn: '7d' },
-    );
-
-    return { accessToken, refreshToken };
-  }
-
   private async updateRefreshToken(userId: string, refreshToken: string) {
-    const hashedRefreshToken = await this.hashData(refreshToken);
+    const hashedRefreshToken = await argon2.hash(refreshToken);
     await this.usersService.setRefreshToken(userId, hashedRefreshToken);
   }
 
-  private async hashData(data: string): Promise<string> {
-    return argon2.hash(data);
+  private async updateWorkspace(userId: string, workspaceId: string) {
+    await this.usersService.setCurrentWorkspace(userId, workspaceId);
   }
 }
