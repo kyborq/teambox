@@ -12,7 +12,6 @@ export const useLoginForm = () => {
   } = useForm<LoginCredentials>();
 
   const onSubmit = (data: LoginCredentials) => {
-    console.log("asdfadsfadsfds");
     loginUser(data);
   };
 

@@ -1,4 +1,4 @@
-import { setCurrentWorkspace } from "@/api/services/userService";
+import { setCurrentWorkspace } from "@/api/services/workspaceService";
 import { useMutation, useQueryClient } from "react-query";
 
 export const useSetWorkspace = () => {
@@ -6,7 +6,7 @@ export const useSetWorkspace = () => {
 
   const { mutate } = useMutation(setCurrentWorkspace, {
     onSuccess: () => {
-      queryClient.invalidateQueries(["currentWorkspace"]);
+      queryClient.invalidateQueries(["currentUser"]);
     },
   });
 

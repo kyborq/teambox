@@ -3,6 +3,8 @@ import {
   Controller,
   Delete,
   Get,
+  HttpCode,
+  HttpStatus,
   Param,
   Patch,
   Post,
@@ -22,17 +24,12 @@ export class WorkspacesController {
   constructor(private workspacesService: WorkspacesService) {}
 
   @Get()
-  getWorkspaces(@UserId() userId: string) {
+  async getWorkspaces(@UserId() userId: string) {
     return this.workspacesService.getWorkspaces(userId);
   }
 
-  // @Get('owned')
-  // getOwnedWorkspaces(@UserId() userId: string) {
-  //   return this.workspacesService.getUserWorkspaces(userId);
-  // }
-
   @Get(':workspace')
-  getWorkspace(
+  async getWorkspace(
     @UserId() userId: string,
     @Param('workspace') workspace: string,
   ) {
@@ -49,7 +46,7 @@ export class WorkspacesController {
 
   @Post()
   @UseInterceptors(WorkspaceQuotaInterceptor)
-  createWorkspace(
+  async createWorkspace(
     @UserId() userId: string,
     @Body() createWorkspaceDto: CreateWorkSpaceDto,
   ) {
@@ -67,5 +64,14 @@ export class WorkspacesController {
       userId,
       renameWorkspaceDto.newName,
     );
+  }
+
+  @Patch(':workspace')
+  @HttpCode(HttpStatus.OK)
+  async updateCurrentworkspace(
+    @UserId() userId: string,
+    @Param('workspace') workspace: string,
+  ) {
+    this.workspacesService.setUserWorkspace(userId, workspace);
   }
 }

@@ -1,4 +1,5 @@
 import { useCurrentUser } from "@/api/hooks";
+import { Loader } from "@/components";
 import { Navigate, Outlet } from "react-router-dom";
 
 type Props = {
@@ -16,5 +17,5 @@ export const Root: React.FC<Props> = ({ redirectTo }) => {
     return <Outlet />;
   }
 
-  return null;
+  return <Loader />;
 };

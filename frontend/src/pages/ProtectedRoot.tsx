@@ -1,13 +1,13 @@
 import { Navigate, Outlet } from "react-router-dom";
 import {
   useCurrentUser,
-  useCurrentWorkspace,
-  useOwnedWorkspaces,
+  useGetWorkspace,
+  useSetWorkspace,
+  useWorkspaces,
 } from "@/api/hooks";
 import { Content, Side, Wrap } from "@/layouts";
 import { Button, Loader, Select, useSwitch } from "@/components";
 import { WorkspaceForm } from "@/forms/WorkspaceForm";
-import { useSetWorkspace } from "@/api/hooks/workspaces/useSetWorkspace";
 
 type Props = {
   redirectTo?: string;
@@ -15,9 +15,9 @@ type Props = {
 
 export const ProtectedRoot: React.FC<Props> = ({ redirectTo }) => {
   const { user, isLoading } = useCurrentUser();
-  const { workspace } = useCurrentWorkspace();
+  const workspaces = useWorkspaces();
+  const currentWorkspace = useGetWorkspace(user?.workspace);
   const setCurrentWorkspace = useSetWorkspace();
-  const ownedWorkspaces = useOwnedWorkspaces();
 
   const workspaceModal = useSwitch();
 
@@ -25,7 +25,7 @@ export const ProtectedRoot: React.FC<Props> = ({ redirectTo }) => {
     return <Navigate to={redirectTo} replace />;
   }
 
-  if (!workspace) {
+  if (isLoading) {
     return <Loader />;
   }
 
@@ -33,10 +33,10 @@ export const ProtectedRoot: React.FC<Props> = ({ redirectTo }) => {
     <Wrap>
       <Side>
         <Select
-          items={ownedWorkspaces.map((w) => w.name)}
-          value={workspace.name}
+          items={workspaces.map((w) => w.name)}
+          value={currentWorkspace?.name || "Не выбрано"}
           onSelect={(index) => {
-            const option = ownedWorkspaces[index];
+            const option = workspaces[index];
             setCurrentWorkspace(option._id);
           }}
         />

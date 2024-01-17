@@ -1,5 +1,5 @@
 import { api } from "../api";
-import { User, Workspace } from "../models";
+import { User } from "../models";
 
 export const getCurrentUser = async () => {
   try {
@@ -10,27 +10,10 @@ export const getCurrentUser = async () => {
   }
 };
 
-export const searchUsers = async (login: string) => {
+export const getUserByLogin = async (login: string) => {
   try {
-    const { data: users } = await api.get<User[]>(`/users/search/${login}`);
-    return users;
-  } catch (e) {
-    throw e;
-  }
-};
-
-export const setCurrentWorkspace = async (workspace: string) => {
-  try {
-    await api.put(`/users/${workspace}`);
-  } catch (e) {
-    throw e;
-  }
-};
-
-export const getCurrentWorkspace = async () => {
-  try {
-    const { data: workspace } = await api.get<Workspace>(`/users/workspace`);
-    return workspace;
+    const { data: user } = await api.get<User>(`/users/${login}`);
+    return user;
   } catch (e) {
     throw e;
   }

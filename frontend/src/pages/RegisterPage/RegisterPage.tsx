@@ -3,10 +3,10 @@ import { Button, Field, Form } from "@/components";
 import { useRegisterForm } from "./hooks/useRegisterForm";
 
 export const RegisterPage = () => {
-  const { register } = useRegisterForm();
+  const { register, submit } = useRegisterForm();
 
   return (
-    <Form>
+    <Form onSubmit={submit}>
       <LogoIcon />
       <Field
         icon={<UserIcon />}

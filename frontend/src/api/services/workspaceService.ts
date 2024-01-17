@@ -24,11 +24,10 @@ export const getWorkspace = async (workspaceId: string) => {
   return workspace;
 };
 
-// export const inviteMember = async (workspaceId: string, userId: string) => {
-//   const { data: workspace } = await api.post<Workspace>("/members/invite", {
-//     workspaceId,
-//     userId,
-//   });
-
-//   return workspace;
-// };
+export const setCurrentWorkspace = async (workspace: string) => {
+  try {
+    await api.patch(`/workspaces/${workspace}`);
+  } catch (e) {
+    throw e;
+  }
+};

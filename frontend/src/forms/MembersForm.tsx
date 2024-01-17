@@ -1,8 +1,7 @@
-import { useSearchUser } from "@/api/hooks/useSearchUser";
-import { CheckIcon } from "@/assets/icons";
-import { Button, Field, Modal, Option, SwitchState } from "@/components";
-import { useMultiSelect } from "@/hooks/useMultiSelect";
+import { CreateMember } from "@/api/models/memberModel";
+import { Button, Field, Form, Modal, SwitchState } from "@/components";
 import { useAddMember } from "@/pages/MembersPage/hooks/useAddMember";
+import { useForm } from "react-hook-form";
 
 type Props = {
   state: SwitchState;
@@ -10,51 +9,33 @@ type Props = {
 };
 
 export const MembersForm: React.FC<Props> = ({ state, workspace }) => {
-  const { users, searchQuery, handleSearch, resetQuery } = useSearchUser();
-  const { selected, handleSelect, resetSelection } = useMultiSelect<string>();
+  const { register, reset, handleSubmit } = useForm<CreateMember>({
+    values: {
+      workspace,
+      login: "",
+    },
+  });
   const addMember = useAddMember();
 
-  const handleSubmit = () => {
-    addMember({ workspace, userIds: selected });
+  const onSubmit = (data: CreateMember) => {
+    addMember({
+      workspace: data.workspace,
+      login: data.login,
+    });
     handleClose();
   };
 
   const handleClose = () => {
     state.close();
-    resetSelection();
-    resetQuery();
+    reset();
   };
 
   return (
     <Modal state={state} onClose={handleClose} title="Пригласить пользователей">
-      <Field
-        placeholder="Введите логин"
-        onChange={handleSearch}
-        value={searchQuery}
-      />
-
-      {users && (
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            gap: 4,
-          }}
-        >
-          {users.map((user, index) => (
-            <Option
-              key={index}
-              value={user.login}
-              onSelect={() => {
-                handleSelect(user._id);
-              }}
-              indicator={selected.includes(user._id) && <CheckIcon />}
-            />
-          ))}
-        </div>
-      )}
-
-      <Button label="Готово" onClick={handleSubmit} />
+      <Form onSubmit={handleSubmit(onSubmit)}>
+        <Field placeholder="Введите логин" {...register("login")} />
+        <Button label="Добавить" />
+      </Form>
     </Modal>
   );
 };

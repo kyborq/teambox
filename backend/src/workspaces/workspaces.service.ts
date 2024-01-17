@@ -56,6 +56,14 @@ export class WorkspacesService {
     }).save();
   }
 
+  async setUserWorkspace(userId: string, workspace: string) {
+    return await this.usersService.setCurrentWorkspace(userId, workspace);
+  }
+
+  async getUserWithLogin(login: string) {
+    return await this.usersService.findByLogin(login);
+  }
+
   async getWorkspaces(userId: string): Promise<Workspace[]> {
     const ownedWorkspaces = await this.getUserWorkspaces(userId);
     const memberWorkspaces = await this.membersService.findWorkspaces(userId);

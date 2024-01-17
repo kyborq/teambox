@@ -9,7 +9,6 @@ import {
 } from '@nestjs/common';
 import { MembersService } from './members.service';
 import { AccessTokenGuard } from 'src/common/guards/access-token.guard';
-import { UserId } from 'src/common/decorators/user-id.decorator';
 import { WorkspaceMemberInterceptor } from 'src/common/interceptors/workspace-member.interceptor';
 import { WorkspaceOwnerGuard } from 'src/common/guards/workspace-owner.guard';
 

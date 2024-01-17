@@ -20,13 +20,15 @@ export class MembersService {
     private workspaceService: WorkspacesService,
   ) {}
 
-  async createMember(user: string, workspaceId: string): Promise<Member> {
+  async createMember(userLogin: string, workspaceId: string): Promise<Member> {
     const workspace = await this.workspaceService.getWorkspace(workspaceId);
     if (!workspace) {
       throw new BadRequestException('Workspace does not exist.');
     }
 
-    if (workspace.owner.toString() === user) {
+    const user = await this.workspaceService.getUserWithLogin(userLogin);
+
+    if (workspace.owner.toString() === user.id) {
       throw new BadRequestException(
         'You are owner, no need to add yourself as member.',
       );
@@ -38,8 +40,15 @@ export class MembersService {
       );
     }
 
+    const alreadyExists = await this.isMemberOfWorkspace(user.id, workspaceId);
+    if (alreadyExists) {
+      throw new BadRequestException(
+        'User is already a member of this workspace.',
+      );
+    }
+
     const createdMember = new this.memberModel({
-      user,
+      user: user.id,
       workspace: workspaceId,
     });
     return createdMember.save();
