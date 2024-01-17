@@ -1,9 +1,15 @@
 import { KeyIcon, LogoIcon, UserIcon } from "@/assets/icons";
-import { Button, Field, Form } from "@/components";
+import { ActionButton, Button, Field, Form } from "@/components";
 import { useRegisterForm } from "./hooks/useRegisterForm";
+import { useNavigate } from "react-router-dom";
 
 export const RegisterPage = () => {
   const { register, submit } = useRegisterForm();
+  const navigate = useNavigate();
+
+  const navigateToLogin = () => {
+    navigate("/login");
+  };
 
   return (
     <Form onSubmit={submit}>
@@ -31,6 +37,7 @@ export const RegisterPage = () => {
         })}
       />
       <Button label="Зарегистрироватся" />
+      <ActionButton label="Уже есть профиль" onClick={navigateToLogin} />
     </Form>
   );
 };

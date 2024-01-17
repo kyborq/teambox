@@ -1,9 +1,16 @@
 import { KeyIcon, LogoIcon, UserIcon } from "@/assets/icons";
-import { Button, Field, Form } from "@/components";
+import { ActionButton, Button, Field, Form } from "@/components";
 import { useLoginForm } from "./hooks/useLoginForm";
+import { useNavigate } from "react-router-dom";
 
 export const LoginPage = () => {
   const { register, submit, isLoading, isError, isValid } = useLoginForm();
+
+  const navigate = useNavigate();
+
+  const navigateToRegister = () => {
+    navigate("/register");
+  };
 
   return (
     <Form onSubmit={submit}>
@@ -29,6 +36,7 @@ export const LoginPage = () => {
         isError={isError}
         isDisabled={!isValid}
       />
+      <ActionButton label="Зарегистрироваться" onClick={navigateToRegister} />
     </Form>
   );
 };
