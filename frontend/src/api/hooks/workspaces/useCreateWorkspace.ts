@@ -16,7 +16,7 @@ export const useCreateWorkspace = () => {
       queryClient.invalidateQueries(["workspaces"]);
     },
     onError: () => {
-      dispatch(setWorkspace(null));
+      // dispatch(setWorkspace(null));
     },
   });
 

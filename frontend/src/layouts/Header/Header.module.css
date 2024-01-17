@@ -1,7 +1,7 @@
 .Header {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 32px;
 }
 
 .Title {
@@ -21,4 +21,9 @@
   align-items: center;
   gap: 8px;
   flex: 1;
+}
+
+.Actions {
+  display: flex;
+  gap: 8px;
 }

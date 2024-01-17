@@ -9,12 +9,18 @@ import { CheckIcon, ExpandIcon } from "@/assets/icons";
 import styles from "./Select.module.css";
 
 type Props = {
-  items: string[];
   value: string;
+  items?: string[];
+  children?: React.ReactNode;
   onSelect?: (id: number) => void;
 };
 
-export const Select: React.FC<Props> = ({ value, items, onSelect }) => {
+export const Select: React.FC<Props> = ({
+  value,
+  items,
+  children,
+  onSelect,
+}) => {
   const ref = useRef<HTMLDivElement>(null);
   const state = useSwitch();
 
@@ -23,25 +29,23 @@ export const Select: React.FC<Props> = ({ value, items, onSelect }) => {
   return (
     <div className={styles.Select} ref={ref}>
       <Spoiler state={state}>
-        {items.map((option, index) => (
-          <Option
-            key={index}
-            onSelect={() => {
-              onSelect && onSelect(index);
-              state.close();
-            }}
-            value={option}
-            selected={value === option}
-            indicator={value === option && <CheckIcon />}
-          />
-        ))}
+        {items && items.length
+          ? items.map((option, index) => (
+              <Option
+                key={index}
+                onSelect={() => {
+                  onSelect && onSelect(index);
+                  state.close();
+                }}
+                value={option}
+                selected={value === option}
+                indicator={value === option && <CheckIcon />}
+              />
+            ))
+          : children}
       </Spoiler>
 
-      <Option
-        onSelect={state.toggle}
-        value={value}
-        icon={!!items.length && <ExpandIcon />}
-      />
+      <Option onSelect={state.toggle} value={value} icon={<ExpandIcon />} />
     </div>
   );
 };

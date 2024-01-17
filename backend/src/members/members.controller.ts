@@ -11,6 +11,7 @@ import { MembersService } from './members.service';
 import { AccessTokenGuard } from 'src/common/guards/access-token.guard';
 import { WorkspaceMemberInterceptor } from 'src/common/interceptors/workspace-member.interceptor';
 import { WorkspaceOwnerGuard } from 'src/common/guards/workspace-owner.guard';
+import { UserDto } from 'src/users/dtos/user.dto';
 
 @Controller('members')
 @UseGuards(AccessTokenGuard)
@@ -20,7 +21,8 @@ export class MembersController {
   @Get(':workspace')
   @UseInterceptors(WorkspaceMemberInterceptor)
   async getWorkspaceMembers(@Param('workspace') workspace: string) {
-    return this.membersService.findMembers(workspace);
+    const members = await this.membersService.findMembers(workspace);
+    return members.map((user) => new UserDto(user));
   }
 
   @Post(':workspace/:user')

@@ -1,0 +1,14 @@
+.Button {
+  border: 0;
+  padding: 0;
+  background-color: transparent;
+  display: flex;
+  color: #c7c7c7;
+  transition: 150ms;
+  cursor: pointer;
+}
+
+.Button:hover {
+  color: #000000;
+  transition: 150ms;
+}

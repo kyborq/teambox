@@ -15,7 +15,7 @@ export const Header: React.FC<Props> = ({ workspace, title, children }) => {
         <ArrowRightIcon />
         <h3 className={styles.Title}>{title}</h3>
       </div>
-      {children}
+      <div className={styles.Actions}>{children}</div>
     </div>
   );
 };

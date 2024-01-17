@@ -9,11 +9,11 @@ type Props = {
 export const Root: React.FC<Props> = ({ redirectTo }) => {
   const { user, isLoading } = useCurrentUser();
 
-  if (user && !isLoading && redirectTo) {
+  if (user && redirectTo) {
     return <Navigate to={redirectTo} replace />;
   }
 
-  if (!isLoading && !user) {
+  if (!user && !isLoading) {
     return <Outlet />;
   }
 

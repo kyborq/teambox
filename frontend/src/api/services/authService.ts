@@ -12,7 +12,7 @@ export const registerUser = async (
 };
 
 export const logout = async () => {
-  await api.get("/auth/logout");
+  return await api.get("/auth/logout");
 };
 
 export const refresh = async () => {
