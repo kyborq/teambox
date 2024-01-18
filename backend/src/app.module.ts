@@ -6,6 +6,7 @@ import { AuthModule } from './auth/auth.module';
 import { RolesModule } from './roles/roles.module';
 import { WorkspacesModule } from './workspaces/workspaces.module';
 import { MembersModule } from './members/members.module';
+import { TasksModule } from './tasks/tasks.module';
 
 @Module({
   imports: [
@@ -15,6 +16,7 @@ import { MembersModule } from './members/members.module';
     UsersModule,
     MembersModule,
     WorkspacesModule,
+    TasksModule,
     // RolesModule,
   ],
   controllers: [],
