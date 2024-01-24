@@ -39,6 +39,12 @@ export class Task {
     default: TaskStatus.TODO,
   })
   status: TaskStatus;
+
+  @Prop({ type: Date })
+  startDate?: Date;
+
+  @Prop({ type: Date })
+  endDate?: Date;
 }
 
 export const TaskSchema = SchemaFactory.createForClass(Task);

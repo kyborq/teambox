@@ -20,6 +20,10 @@ export class MembersService {
     private workspaceService: WorkspacesService,
   ) {}
 
+  async getMember(memberId: string): Promise<Member> {
+    return await this.memberModel.findById(memberId).exec();
+  }
+
   async createMember(userLogin: string, workspaceId: string): Promise<Member> {
     const workspace = await this.workspaceService.getWorkspace(workspaceId);
     if (!workspace) {

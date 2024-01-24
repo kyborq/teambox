@@ -1,14 +1,18 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Task, TaskDocument } from './schemas/task.schema';
 import { Model } from 'mongoose';
 import { CreateTaskDto } from './dtos/create-task.dto';
+import { EditTaskDto } from './dtos/edit-task.dto';
+import { MembersService } from 'src/members/members.service';
+import { DeadlineDto } from './dtos/deadline.dto';
 
 @Injectable()
 export class TasksService {
   constructor(
     @InjectModel(Task.name)
     private taskModel: Model<TaskDocument>,
+    private memberService: MembersService,
   ) {}
 
   async getWorkspaceTasks(workspace: string): Promise<Task[]> {
@@ -47,20 +51,59 @@ export class TasksService {
     return createdTask.save();
   }
 
-  async editTask(taskAlias: string) {
-    // ... label and description
+  async editTask(taskId: string, editTaskDto: EditTaskDto) {
+    const editedTask = await this.taskModel
+      .findByIdAndUpdate(taskId, {
+        ...editTaskDto,
+      })
+      .exec();
+
+    if (!editedTask) {
+      throw new NotFoundException(`Task with alias ${taskId} not found`);
+    }
+
+    return editedTask;
   }
 
   async assignTask(taskId: string, memberId: string) {
-    // ...
+    const member = this.memberService.getMember(memberId);
+
+    const task = await this.taskModel
+      .findByIdAndUpdate(taskId, { member })
+      .exec();
+
+    if (!task) {
+      throw new NotFoundException(`Task with ID ${taskId} not found`);
+    }
+
+    return task;
   }
 
-  async clearAssignment(taskAlias: string) {
-    // ...
+  async clearAssignment(taskId: string) {
+    const task = await this.taskModel
+      .findByIdAndUpdate(taskId, { member: null })
+      .exec();
+
+    if (!task) {
+      throw new NotFoundException(`Task with ID ${taskId} not found`);
+    }
+
+    return task;
   }
 
-  async addDeadline(taskAlias: string) {
-    // ...
+  async addDeadline(taskId: string, deadlineDto: DeadlineDto) {
+    const task = await this.taskModel
+      .findByIdAndUpdate(taskId, {
+        start: deadlineDto.startDate,
+        end: deadlineDto.endDate,
+      })
+      .exec();
+
+    if (!task) {
+      throw new NotFoundException(`Task with ID ${taskId} not found`);
+    }
+
+    return task;
   }
 
   async deleteDeadline(taskAlias: string) {

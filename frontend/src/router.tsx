@@ -7,6 +7,7 @@ import {
   RegisterPage,
   RolesPage,
   Root,
+  TasksPage,
 } from "./pages";
 
 export enum Router {
@@ -57,6 +58,10 @@ export const router = createBrowserRouter([
       {
         path: "roles",
         element: <RolesPage />,
+      },
+      {
+        path: "tasks",
+        element: <TasksPage />,
       },
     ],
   },

@@ -9,6 +9,7 @@ import ArrowRightIcon from "./arrow-right.svg?react";
 import GroupIcon from "./group.svg?react";
 import BoxIcon from "./planet.svg?react";
 import LockIcon from "./lock.svg?react";
+import CheckboxBlankIcon from "./checkbox-blank.svg?react";
 
 export {
   LogoIcon,
@@ -22,4 +23,5 @@ export {
   BoxIcon,
   LogoutIcon,
   LockIcon,
+  CheckboxBlankIcon,
 };
